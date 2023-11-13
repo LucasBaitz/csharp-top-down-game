@@ -12,14 +12,14 @@ namespace TopDownShooter.Models
 {
 	public class TileMap
 	{
-		private readonly Point _mapTileSize = new(6, 4);
+		private readonly Point _mapTileSize = new(7, 4);
 		private readonly Sprite[,] _tiles;
 
 		public TileMap()
 		{
 			_tiles = new Sprite[_mapTileSize.X, _mapTileSize.Y];
 
-			List<Texture2D> textures = new(5);
+			List<Texture2D> textures = new(1);
 
 			//add multiple
 			//for (int i = 1; i < 0; i++)

@@ -5,18 +5,18 @@ using System.Collections.Generic;
 using TopDownShooter.Helpers;
 using TopDownShooter.Managers;
 using TopDownShooter.Models.Base;
-using TopDownShooter.Models.Weapons;
 
 namespace TopDownShooter.Models
 {
 	public class Player : Sprite
 	{
-		public Weapon CurrentWeapon { get; set; } = new Pistol(Globals.Content.Load<Texture2D>("bullet"));
-		public int HP { get; set; } = 2;
+		public Weapon CurrentWeapon { get; set; }
+		public int HP { get; set; } = 1;
+		public int KillCount { get; set; } = 0;
 		public bool IsDead { get; private set; } = false;
 		public Player(Texture2D texture, Vector2 position) : base(texture, position)
 		{
-
+			WeaponsManager.SwitchWeapon(this, 1);
 		}
 
 		private Vector2 GetStartPosition()
@@ -27,8 +27,9 @@ namespace TopDownShooter.Models
 		public void Reset()
 		{
 			IsDead = false;
-			HP = 2;
+			HP = 1;
 			Position = GetStartPosition();
+			KillCount = 0;
 		}
 
 		private void CheckHit(Zombie z)
@@ -83,7 +84,6 @@ namespace TopDownShooter.Models
 			}
 
 			CheckDeath(zombies);
-
 		}
 	}
 }

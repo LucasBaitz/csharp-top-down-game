@@ -27,9 +27,11 @@ namespace TopDownShooter.Managers
 			foreach (Projectile proj in Projectiles)
 			{
 				proj.Update();
+				
 				foreach (Zombie z in zombies)
 				{
 					if (z.HP <= 0) continue;
+					
 					if ((proj.Position - z.Position).Length() < 32)
 					{
 						z.TakeDamage(proj.Damage);

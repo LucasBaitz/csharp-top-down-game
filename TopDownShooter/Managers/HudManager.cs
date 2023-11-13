@@ -21,8 +21,9 @@ namespace TopDownShooter.Managers
 		public static void Draw(Player player)
 		{
 			AmmoHud(player);
-			//RuntimeHud();
+			RoundHud();
 			HealthHud(player);
+			KillCountHud(player);
 		}
 
 		public static void AmmoHud(Player player)
@@ -36,11 +37,11 @@ namespace TopDownShooter.Managers
 			}
 		}
 
-		public static void RuntimeHud()
+		public static void RoundHud()
 		{
-			string runtimeText = $"TEXT";
-			Vector2 runtimePosition = new Vector2((Globals.Bounds.X / 2) / 2, 0);
-			Globals.SpriteBatch.DrawString(_font, runtimeText, runtimePosition, Color.White);
+			string roundText = $"{RoundsManager.RoundCounter}";
+			Vector2 counterPosition = new Vector2(Globals.Bounds.X / 2, 0);
+			Globals.SpriteBatch.DrawString(_font, roundText, counterPosition, Color.White);
 		}
 
 		public static void HealthHud(Player player)
@@ -54,6 +55,14 @@ namespace TopDownShooter.Managers
 				Globals.SpriteBatch.Draw(_healthTexture, position, null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
 				position.Y += _healthTexture.Height * 2;
 			}
+		}
+
+		public static void KillCountHud(Player player)
+		{
+			string killCount = $"Kills: {player.KillCount}";
+			Vector2 position = new Vector2(Globals.Bounds.X - 100, 0);
+
+			Globals.SpriteBatch.DrawString(_font, killCount, position, Color.White);
 		}
 	}
 }

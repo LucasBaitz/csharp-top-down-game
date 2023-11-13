@@ -58,5 +58,10 @@ namespace TopDownShooter.Models.Base
 				IsReloading = false;
 			}
 		}
+
+		public virtual void Reset()
+		{
+			Ammo = maxAmmo;
+		}
 	}
 }

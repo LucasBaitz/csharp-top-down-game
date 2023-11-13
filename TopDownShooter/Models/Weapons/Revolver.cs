@@ -13,7 +13,7 @@ namespace TopDownShooter.Models.Weapons
 	{
 		public Revolver(Texture2D texture) : base(texture)
 		{
-			cooldown = 1f;
+			cooldown = 0.7f;
 			maxAmmo = 6;
 			Ammo = maxAmmo;
 			reloadTime = 0.5f;
@@ -28,7 +28,7 @@ namespace TopDownShooter.Models.Weapons
 				Rotation = player.Rotation,
 				Lifespan = 10f,
 				Speed = 1500,
-				Damage = 3
+				Damage = 6
 			};
 
 			ProjectileManager.AddProjectile(data);

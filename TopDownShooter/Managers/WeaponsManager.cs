@@ -32,6 +32,12 @@ namespace TopDownShooter.Managers
 			return Arsenal.ContainsKey(numberPressed);
 		}
 
-
+		public static void Reset()
+		{
+            foreach (var weapon in Arsenal.Values)
+            {
+				weapon.Reset();
+            }
+        }
 	}
 }

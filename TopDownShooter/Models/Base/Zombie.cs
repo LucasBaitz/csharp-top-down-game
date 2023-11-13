@@ -8,7 +8,8 @@ namespace TopDownShooter.Models.Base
 	public class Zombie : Sprite
 	{
 		public int HP { get; set; } = 2;
-		public Zombie(Texture2D texture, Vector2 position) : base(texture, position)
+		public bool IsDead => CheckDeath();
+        public Zombie(Texture2D texture, Vector2 position) : base(texture, position)
 		{
 			Speed = 100;
 		}
@@ -18,12 +19,17 @@ namespace TopDownShooter.Models.Base
 			Speed = speed;
 		}
 
-		public void TakeDamage(int damage)
+		public virtual void TakeDamage(int damage)
 		{
 			HP -= damage;
 		}
 
-		public void Update(Player player)
+		private bool CheckDeath()
+		{
+			return HP <= 0;
+		}
+
+		public virtual void Update(Player player)
 		{
 			var playerPos = player.Position - Position;
 
