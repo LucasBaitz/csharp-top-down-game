@@ -59,8 +59,8 @@ namespace TopDownShooter.Managers
 
 		public static void KillCountHud(Player player)
 		{
-			string killCount = $"Kills: {player.KillCount}";
-			Vector2 position = new Vector2(Globals.Bounds.X - 100, 0);
+			string killCount = $"{player.KillCount} / {RoundsManager.KillsToNextRound}";
+			Vector2 position = new Vector2(Globals.Bounds.X - 150, 0);
 
 			Globals.SpriteBatch.DrawString(_font, killCount, position, Color.White);
 		}

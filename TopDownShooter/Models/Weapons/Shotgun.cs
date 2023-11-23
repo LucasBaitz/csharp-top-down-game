@@ -9,10 +9,11 @@ namespace TopDownShooter.Models.Weapons
 	public class Shotgun : Weapon
 	{
 		private const float ANGLE_STEP = (float)(Math.PI / 40);
+		public int ShellCapacity { get; private set; } = 5;
 
 		public Shotgun(Texture2D projectileTexture) : base(projectileTexture)
 		{
-			cooldown = 0.75f;
+			cooldown = 0.7f;
 			maxAmmo = 7;
 			Ammo = maxAmmo;
 			reloadTime = 3f;
@@ -30,7 +31,7 @@ namespace TopDownShooter.Models.Weapons
 				Damage = 2
 			};
 
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < ShellCapacity; i++)
 			{
 				pd.Rotation += ANGLE_STEP;
 				pd.Speed = BulletVelocity();

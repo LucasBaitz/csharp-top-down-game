@@ -11,12 +11,20 @@ namespace TopDownShooter.Models
 	public class Player : Sprite
 	{
 		public Weapon CurrentWeapon { get; set; }
-		public int HP { get; set; } = 1;
+		private readonly int _initialHp;
+		public int HP { get; set; }
 		public int KillCount { get; set; } = 0;
 		public bool IsDead { get; private set; } = false;
+		public bool TookDamage { get; private set; } = false;
+		private float _takeDamageCooldown;
+		private float _takeDamageCooldownLeft;
 		public Player(Texture2D texture, Vector2 position) : base(texture, position)
 		{
 			WeaponsManager.SwitchWeapon(this, 1);
+			_initialHp = 3;
+			HP = _initialHp;
+			_takeDamageCooldown = 10f;
+			_takeDamageCooldownLeft = 0f;
 		}
 
 		private Vector2 GetStartPosition()
@@ -27,21 +35,42 @@ namespace TopDownShooter.Models
 		public void Reset()
 		{
 			IsDead = false;
-			HP = 1;
+			HP = _initialHp;
 			Position = GetStartPosition();
 			KillCount = 0;
 		}
 
 		private void CheckHit(Zombie z)
 		{
-			if ((Position - z.Position).Length() < 50) HP -= 1;
-			
+			if (_takeDamageCooldownLeft > 0 || TookDamage) return;
+
+			if ((Position - z.Position).Length() < 50)
+			{
+				HP -= 1;
+				TookDamage = true;
+				_takeDamageCooldownLeft = _takeDamageCooldown;
+			}
 		}
+
+
+		private void TakeDamageCooldownUpdate()
+		{
+			if (_takeDamageCooldownLeft > 0)
+			{
+				_takeDamageCooldownLeft -= Globals.TotalSeconds;
+			}
+			else if (TookDamage)
+			{
+				TookDamage = false;
+			}
+		}
+
 
 		private void CheckDeath(List<Zombie> zombies)
 		{
 			foreach (var z in zombies)
 			{
+				TakeDamageCooldownUpdate();
 				if (z.HP <= 0) continue;
 				CheckHit(z);
 				if (HP <= 0)

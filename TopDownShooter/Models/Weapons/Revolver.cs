@@ -28,7 +28,7 @@ namespace TopDownShooter.Models.Weapons
 				Rotation = player.Rotation,
 				Lifespan = 10f,
 				Speed = 1500,
-				Damage = 6
+				Damage = 10
 			};
 
 			ProjectileManager.AddProjectile(data);

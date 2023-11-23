@@ -26,7 +26,7 @@ namespace TopDownShooter.Models
 
 		private void CapSpeed()
 		{
-			if (Speed <= 170) Speed = 170;
+			if (Speed <= 100) Speed = 100;
 		}
 
 	}

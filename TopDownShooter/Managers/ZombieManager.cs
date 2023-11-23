@@ -13,6 +13,8 @@ namespace TopDownShooter.Managers
 	{
 		private static Texture2D _texture;
 		private static Texture2D _bossTexture;
+		private static Texture2D _speedTexture;
+		private static int _maxZombie;
 		public static List<Zombie> Zombies { get; } = new List<Zombie>();
 		private static float _spawnCooldown;
 		private static float _spawnTimer;
@@ -24,6 +26,7 @@ namespace TopDownShooter.Managers
 		{
 			_texture = Globals.Content.Load<Texture2D>("zombie");
 			_bossTexture = Globals.Content.Load<Texture2D>("tank-zombie");
+			_speedTexture = Globals.Content.Load<Texture2D>("zombie-speed");
 			_spawnCooldown = 1.2f;
 			_spawnTimer = _spawnCooldown;
 			_random = new Random();
@@ -53,7 +56,7 @@ namespace TopDownShooter.Managers
 
 		private static int RandomSpeed()
 		{
-			return _random.Next(100, 250);
+			return _random.Next(130, 170);
 		}
 
 		public static void AddZombie()
@@ -66,8 +69,14 @@ namespace TopDownShooter.Managers
 			Zombies.Add(new ZombieTank(_bossTexture, RandomPosition()));
 		}
 
+		public static void AddZombieSpeedy()
+		{
+			Zombies.Add(new ZombieSpeedy(_speedTexture, RandomPosition()));
+		}
+
 		public static void Update(Player player)
 		{
+			_maxZombie = RoundsManager.KillsToNextRound - player.KillCount;
 			ZombieSpawner();
 
 			foreach (Zombie zomb in Zombies)
@@ -81,21 +90,33 @@ namespace TopDownShooter.Managers
 
 		private static void ZombieSpawner()
 		{
-			_spawnTimer -= Globals.TotalSeconds;
-			if (_spawnTimer <= 0)
+			if (Zombies.Count < _maxZombie)
 			{
-				_spawnTimer += _spawnCooldown;
-				double spawnChance = _random.NextDouble();
-				if (spawnChance < 0.1)
+				_spawnTimer -= Globals.TotalSeconds;
+				if (_spawnTimer <= 0)
 				{
-					AddZombieTank();
-				}
-				else
-				{
-					AddZombie();
+					_spawnTimer += _spawnCooldown;
+					double spawnChance = _random.NextDouble();
+					if (spawnChance < 0.1)
+					{
+						double zombieTypeChance = _random.NextDouble();
+						if (zombieTypeChance < 0.5)
+						{
+							AddZombieTank();
+						}
+						else
+						{
+							AddZombieSpeedy();
+						}
+					}
+					else
+					{
+						AddZombie();
+					}
 				}
 			}
 		}
+
 
 		public static void Draw()
 		{

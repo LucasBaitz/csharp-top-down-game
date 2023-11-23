@@ -10,8 +10,9 @@ namespace TopDownShooter.Managers
 	public static class RoundsManager
 	{
 		public static int RoundCounter { get; set; } = 1;
-		public static int KillsToNextRound { get; set; } = 5;
-		public static float DifficultyMultiplier { get; set; } = 0.1f;
+		public static int KillsToNextRound { get; set; } = 10;
+		private static int _killIncrease = 20;
+		public static float DifficultyMultiplier { get; set; } = 0.050f;
 
 		public static void Init()
 		{
@@ -29,18 +30,22 @@ namespace TopDownShooter.Managers
 
 		public static void SetNextRound()
 		{
-			KillsToNextRound *= 2;
 			RoundCounter++;
+			if (RoundCounter % 5 == 0)
+			{
+				_killIncrease *= 2;
+			}
+			KillsToNextRound += _killIncrease;
 		}
 
 		public static bool PlayerReachedGoal(Player player)
 		{
-			return player.KillCount == KillsToNextRound;
+			return player.KillCount >= KillsToNextRound;
 		}
 
 		public static void Reset()
 		{
-			KillsToNextRound = 15;
+			KillsToNextRound = 10;
 			RoundCounter = 1;
 		}
 
